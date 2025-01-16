@@ -1,0 +1,49 @@
+name: Run tests
+
+on: deployment
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: github.action != 'github-classroom[bot]'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - uses: Central-University-IT/setup-test-2025-android@main
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.0.0
+        with:
+          java-version: "17"
+          distribution: "temurin"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3.2.0
+        with:
+          cmdline-tools-version: 11076708
+          log-accepted-android-sdk-licenses: false
+
+      - run: chmod +x gradlew
+      # - run: sudo sdkmanager 'platforms;android-35' 'build-tools;34.0.0'
+
+      - run: ./gradlew verifyPaparazziDebug --no-daemon &> /dev/null
+        continue-on-error: true
+
+      - uses: Central-University-IT/junit-action@main
+        with:
+          files: test-solution/build/test-results/testDebugUnitTest/TEST-*.xml
+        id: junit
+
+      - uses: actions/upload-artifact@v4.0.0
+        with:
+          name: result
+          path: ${{ steps.junit.outputs.result_file }}
+          if-no-files-found: error
+          compression-level: 0
