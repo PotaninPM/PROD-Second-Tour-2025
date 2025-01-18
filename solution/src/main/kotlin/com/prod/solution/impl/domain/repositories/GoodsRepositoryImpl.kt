@@ -19,6 +19,10 @@ class GoodsRepositoryImpl(
      * Метод возвращает информацию о товарах (или из кеша, или из локального хранилища)
      */
     override fun getAllGoods(): List<GoodInfo> {
-        TODO("Implementation here")
+        return goodsLocalDataSource.getCachedGoods().ifEmpty {
+            val goods = goodsRemoteDataSource.getAllGoods()
+            goodsLocalDataSource.cacheGoods(goods)
+            goods
+        }
     }
 }

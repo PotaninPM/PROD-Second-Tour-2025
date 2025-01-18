@@ -15,6 +15,6 @@ class UserRepositoryImpl(
      * Метод возвращает информацию о пользователе UserInfo
      */
     override fun getUserInfo(): UserInfo {
-        TODO("Implementation here")
+        return userRemoteDataSource.getUserInfo()
     }
 }

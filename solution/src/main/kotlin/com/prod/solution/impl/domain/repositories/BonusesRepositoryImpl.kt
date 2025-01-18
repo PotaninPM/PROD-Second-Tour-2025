@@ -19,6 +19,10 @@ class BonusesRepositoryImpl(
      * Метод возвращает информацию о бонусах (или из кеша, или из локального хранилища)
      */
     override fun getAllBonuses(): List<BonusInfo> {
-        TODO("Implementation here")
+        return bonusesLocalDataSource.getCachedBonuses().ifEmpty {
+            val bonuses = bonusesRemoteDataSource.getAllBonuses()
+            bonusesLocalDataSource.cacheBonuses(bonuses)
+            bonuses
+        }
     }
 }

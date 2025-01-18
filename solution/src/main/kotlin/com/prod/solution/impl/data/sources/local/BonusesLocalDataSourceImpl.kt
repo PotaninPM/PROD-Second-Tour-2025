@@ -9,17 +9,21 @@ import com.prod.core.api.domain.models.BonusInfo
  */
 class BonusesLocalDataSourceImpl : BonusesLocalDataSource {
 
+    private val cachedBon: MutableList<BonusInfo> = mutableListOf()
+
+
     /**
      * Метод кеширует информацию о бонусах
      */
     override fun cacheBonuses(bonuses: List<BonusInfo>) {
-        TODO("Implementation here")
+        cachedBon.clear()
+        cachedBon.addAll(bonuses)
     }
 
     /**
      * Метод возвращает закешированную информацию
      */
     override fun getCachedBonuses(): List<BonusInfo> {
-        TODO("Implementation here")
+        return cachedBon.toList()
     }
 }
