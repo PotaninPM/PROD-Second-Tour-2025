@@ -15,6 +15,6 @@ class BannerRepositoryImpl(private val remoteDataSource: BannerRemoteDataSource)
      * И вернуть BannerInfo
      */
     override fun getBannerInfo(): BannerInfo {
-        TODO("Implementation here")
+        return remoteDataSource.getBanner()
     }
 }
