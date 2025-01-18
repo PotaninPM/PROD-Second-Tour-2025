@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import com.prod.core.api.ui.banner.BannerUiModel
 import com.prod.core.api.ui.banner.LargeBannerUiModel
 import com.prod.core.api.ui.banner.SmallBannerUiModel
@@ -29,77 +30,47 @@ class BannerView @JvmOverloads constructor(
 
     private var binding: BannerViewBinding = BannerViewBinding.inflate(LayoutInflater.from(context), this, true)
 
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+
+        updateLayoutParams {
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+        }
+    }
+
     /**
      * Метод для инициализации баннера.
      * Принимает состояние экрана и на основе него отрисовывает нужные данные
      * @param model - модель баннера
      */
+
     fun setupBanner(model: BannerUiModel) {
-        val small = model.smallBanner
-        val large = model.largeBanner
+        model.smallBanner?.let { small ->
+            binding.smallBannerContainer.visibility = View.VISIBLE
+            binding.smallBannerRightLabel.text = small.rightLabel
+            binding.smallBannerLeftLabel.text = small.leftLabel
+            binding.smallBannerImage.setImageResource(small.imageResId)
 
-        if (small != null) {
-            if (large.isFirstInPriority) {
-                showLarge(large)
-                showSmall(small)
-                reorder(binding.largeBannerContainer, binding.smallBannerContainer)
-                setMargins(binding.largeBannerContainer, binding.smallBannerContainer)
-            } else {
-                showSmall(small)
-                showLarge(large)
-                reorder(binding.smallBannerContainer, binding.largeBannerContainer)
-                setMargins(binding.smallBannerContainer, binding.largeBannerContainer)
+            if (!small.isFirstInPriority) {
+                binding.all.layoutDirection = LAYOUT_DIRECTION_RTL
             }
+        }
+
+        Log.i("INFOG", model.smallBanner.toString())
+
+        if (model.smallBanner == null) {
+            binding.smallBannerContainer.visibility = GONE
+            binding.spacer.visibility = GONE
         } else {
-            showLarge(large)
+            binding.smallBannerContainer.visibility = VISIBLE
+            binding.spacer.visibility = VISIBLE
+        }
+
+        model.largeBanner.let { large ->
             binding.largeBannerContainer.visibility = View.VISIBLE
-            binding.smallBannerContainer.visibility = View.GONE
-            resetMargins(binding.largeBannerContainer)
+            binding.largeBannerTitle.text = large.title
+            binding.largeBannerDescription.text = large.description
+            binding.largeBannerImage.setImageResource(large.imageResId)
         }
-    }
-
-    private fun showSmall(small: SmallBannerUiModel) {
-        binding.smallBannerContainer.visibility = View.VISIBLE
-        binding.smallBannerRightLabel.text = small.rightLabel
-        binding.smallBannerLeftLabel.text = small.leftLabel
-        binding.smallBannerImage.setImageResource(small.imageResId)
-    }
-
-    private fun showLarge(large: LargeBannerUiModel) {
-        binding.largeBannerContainer.visibility = View.VISIBLE
-        binding.largeBannerTitle.text = large.title
-        binding.largeBannerDescription.text = large.description
-        binding.largeBannerImage.setImageResource(large.imageResId)
-    }
-
-    private fun setMargins(first: View, second: View) {
-        val paramsFirst = first.layoutParams as MarginLayoutParams
-        val paramsSecond = second.layoutParams as MarginLayoutParams
-
-        paramsFirst.setMargins(0, 0, dpToPx(8), 0)
-
-        first.layoutParams = paramsFirst
-        second.layoutParams = paramsSecond
-    }
-
-    private fun reorder(first: View, second: View) {
-        val parent = first.parent as ViewGroup
-        val firstIndex = parent.indexOfChild(first)
-        val secondIndex = parent.indexOfChild(second)
-
-        if (firstIndex > secondIndex) {
-            parent.removeView(first)
-            parent.addView(first, secondIndex)
-        }
-    }
-
-    private fun resetMargins(view: View) {
-        val params = view.layoutParams as MarginLayoutParams
-        params.setMargins(0, 0, 0, 0)
-        view.layoutParams = params
-    }
-
-    private fun dpToPx(dp: Int): Int {
-        return (dp * context.resources.displayMetrics.density).toInt()
     }
 }
