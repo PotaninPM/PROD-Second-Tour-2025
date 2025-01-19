@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@android:color/transparent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/goods_view_container">
+
+        <ImageView
+            android:id="@+id/iv_goods_image"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/goods_3_img"
+            android:background="@drawable/goods_view_image"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_top_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:paddingHorizontal="4dp"
+            android:paddingVertical="2dp"
+            android:background="@drawable/goods_view_top_label"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="Кэшбэк 10%"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/iv_goods_image"
+            app:layout_constraintTop_toTopOf="@id/iv_goods_image" />
+
+        <TextView
+            android:id="@+id/tv_bottom_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="4dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/goods_view_bottom_label"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="Новинка"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_goods_image"
+            app:layout_constraintStart_toStartOf="@id/iv_goods_image" />
+
+        <TextView
+            android:id="@+id/tv_goods_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="16dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="Реклама"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_goods_image" />
+
+        <TextView
+            android:id="@+id/tv_manufacturer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="Здесь могла бы быть ваша реклама"
+            android:textColor="#8F8F8F"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_goods_title" />
+
+        <TextView
+            android:id="@+id/tv_goods_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="3 кг"
+            android:textColor="#8F8F8F"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_manufacturer" />
+
+        <TextView
+            android:id="@+id/tv_goods_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="111 ₽"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_goods_weight" />
+
+        <Button
+            android:id="@+id/btn_add_to_cart"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/goods_view_button_add"
+            android:elevation="0dp"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:text="Добавить"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:maxLines="1"
+            style="?android:attr/borderlessButtonStyle"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_goods_price" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent" />
+</FrameLayout>

@@ -61,7 +61,7 @@ class GoodInfoToUiModelMapperImpl : GoodInfoToUiModelMapper {
                 Const.TYPE_CASHBACK -> if (bonus.promotionExtra != null) {
                     "${bonus.promotionExtra!!.label} • ${bonus.value}%"
                 } else {
-                    "Кэшбэк ${bonus.value}%"
+                    "Кэшбэк ${(bonus.value * 100).toInt()}%"
                 }
 
                 Const.TYPE_POINTS -> if (bonus.promotionExtra != null) {
@@ -80,7 +80,12 @@ class GoodInfoToUiModelMapperImpl : GoodInfoToUiModelMapper {
                 } ?: Color.BLACK,
                 backgroundColor = bonus.promotionExtra?.baseColor?.let { color ->
                     Color.parseColor(if (!color.startsWith("#")) "#$color" else color)
-                } ?: Color.WHITE
+                } ?: Color.WHITE,
+                borderColor = if (bonus.promotionExtra != null) {
+                    Color.parseColor("#000000")
+                } else {
+                    null
+                }
             )
 
         }
