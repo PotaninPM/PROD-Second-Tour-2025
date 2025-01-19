@@ -73,13 +73,11 @@ class GoodInfoToUiModelMapperImpl : GoodInfoToUiModelMapper {
                 else -> "${bonus.value.toInt()} баллов"
             }
 
-            labelText.let {
-                GoodsBonusUi(
-                    text = it,
-                    textColor = bonus.promotionExtra?.tintColor?.let(Color::parseColor) ?: Color.BLACK,
-                    backgroundColor = bonus.promotionExtra?.baseColor?.let(Color::parseColor) ?: Color.WHITE
-                )
-            }
+            GoodsBonusUi(
+                text = labelText,
+                textColor = bonus.promotionExtra?.tintColor?.let(Color::parseColor) ?: Color.BLACK,
+                backgroundColor = bonus.promotionExtra?.baseColor?.let(Color::parseColor) ?: Color.WHITE
+            )
         }
 
         return GoodsItemUi(
