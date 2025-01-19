@@ -20,6 +20,19 @@ class GetBonusInfoFromGoodInfoUseCaseImpl(
      * Метод принимает товар и возвращает бонус согласно задаче
      */
     override fun getBonusInfo(goodInfo: GoodInfo): BonusInfo? {
-        TODO("Implementation here")
+        val userBon = userRepository.getUserInfo().availableBonuses
+        val allBonuses = bonusesRepository.getAllBonuses()
+
+        val activeBon = allBonuses.filter { bonus ->
+            bonus.availableDueTo?.after(currentDateProvider.provideCurrentDate()) ?: true
+        }
+
+        return goodInfo.bonusIds.firstOrNull { bonusId ->
+            activeBon.any { bonus ->
+                bonus.id == bonusId && userBon.contains(bonusId)
+            }
+        }?.let { bonusId ->
+            activeBon.find { it.id == bonusId }
+        }
     }
 }

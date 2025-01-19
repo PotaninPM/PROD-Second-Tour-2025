@@ -44,10 +44,10 @@ class GoodsRemoteDataSourceImpl(private val jsonProvider: JsonProvider) : GoodsR
             name = producerObject.getString("name")
         )
 
-        var isNew = goodObject.getBoolean("is_new")
-
-        if (isNew == null) {
-            isNew = false
+        val isNew = if (goodObject.has("is_new")) {
+            goodObject.getBoolean("is_new")
+        } else {
+            false
         }
 
         val itemQuantityObject = goodObject.getJSONObject("item_countity")

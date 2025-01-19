@@ -16,6 +16,6 @@ class GoodsInfoSorterImpl(
      * Метод возвращает отсортированную информацию о товарах
      */
     override fun sortGoodsInfo(goods: List<GoodInfo>, userInfo: UserInfo): List<GoodInfo> {
-        TODO("Implementation here")
+        return goods.sortedByDescending { goodsScoreCalculator.calculateScore(it, userInfo) }
     }
 }

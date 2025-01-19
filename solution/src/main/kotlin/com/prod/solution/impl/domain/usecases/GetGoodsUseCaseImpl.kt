@@ -26,6 +26,22 @@ class GetGoodsUseCaseImpl(
      * Метод возвращает информацию о товарах
      */
     override fun getAllGoods(): List<GoodsItemUi> {
-        TODO("Implementation here")
+        val goods = goodsRepository.getAllGoods()
+        val userInfo = userRepository.getUserInfo()
+        val sortedGoods = goodsInfoSorter.sortGoodsInfo(goods, userInfo)
+
+        val cart = cartRepository.getCart()
+
+        return sortedGoods.map { good ->
+            val quantity = cart.find { it.first.id == good.id }?.second ?: 0
+            val bonusInfo = getBonusInfoFromGoodInfoUseCase.getBonusInfo(good)
+
+            goodInfoToUiModelMapper.mapGoodInfoToUiModel(
+                goods = good,
+                quantity = quantity,
+                userInfo = userInfo,
+                bonusInfo = bonusInfo
+            )
+        }
     }
 }

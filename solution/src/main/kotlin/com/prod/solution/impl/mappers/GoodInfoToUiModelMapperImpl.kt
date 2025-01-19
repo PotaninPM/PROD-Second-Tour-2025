@@ -75,9 +75,14 @@ class GoodInfoToUiModelMapperImpl : GoodInfoToUiModelMapper {
 
             GoodsBonusUi(
                 text = labelText,
-                textColor = bonus.promotionExtra?.tintColor?.let(Color::parseColor) ?: Color.BLACK,
-                backgroundColor = bonus.promotionExtra?.baseColor?.let(Color::parseColor) ?: Color.WHITE
+                textColor = bonus.promotionExtra?.tintColor?.let { color ->
+                    Color.parseColor(if (!color.startsWith("#")) "#$color" else color)
+                } ?: Color.BLACK,
+                backgroundColor = bonus.promotionExtra?.baseColor?.let { color ->
+                    Color.parseColor(if (!color.startsWith("#")) "#$color" else color)
+                } ?: Color.WHITE
             )
+
         }
 
         return GoodsItemUi(
