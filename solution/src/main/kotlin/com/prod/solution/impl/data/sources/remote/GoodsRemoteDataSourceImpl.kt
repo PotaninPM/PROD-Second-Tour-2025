@@ -6,6 +6,7 @@ import com.prod.core.api.domain.models.GoodInfo
 import com.prod.core.api.domain.models.GoodItemQuantityInfo
 import com.prod.core.api.domain.models.GoodProducerInfo
 import org.json.JSONObject
+import kotlin.math.round
 
 /**
  * Задача 4. Реализуйте сервис для получения данных о товарах из API
@@ -55,7 +56,7 @@ class GoodsRemoteDataSourceImpl(private val jsonProvider: JsonProvider) : GoodsR
             value = itemQuantityObject.getInt("value")
         )
 
-        val cost = goodObject.getInt("cost")
+        val cost = goodObject.getDouble("cost").toInt()
         val popularity = goodObject.getInt("popularity")
         val category = goodObject.getString("category")
 
