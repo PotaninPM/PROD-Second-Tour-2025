@@ -73,6 +73,16 @@ class GoodsItemView @JvmOverloads constructor(
             tvManufacturer.text = item.producerName
             tvGoodsWeight.text = item.quantityInfo
             tvGoodsPrice.text = item.cost
+
+            if (item.costAndQuantityInCart == null) {
+                btnAddToCart.visibility = VISIBLE
+                quantityControls.visibility = GONE
+            } else {
+                btnAddToCart.visibility = GONE
+                quantityControls.visibility = VISIBLE
+
+                tvQuantity.text = item.costAndQuantityInCart
+            }
         }
     }
 
@@ -87,13 +97,13 @@ class GoodsItemView @JvmOverloads constructor(
      * Метод для установки колбэка в нужную кнопку
      */
     fun setIncreaseQuantityClickListener(onClick: () -> Unit) {
-        //binding.btnIncreaseQuantity.setOnClickListener { onClick() }
+        binding.btnIncreaseQuantity.setOnClickListener { onClick() }
     }
 
     /**
      * Метод для установки колбэка в нужную кнопку
      */
     fun setDecreaseQuantityClickListener(onClick: () -> Unit) {
-        //binding.btnDecreaseQuantity.setOnClickListener { onClick() }
+        binding.btnDecreaseQuantity.setOnClickListener { onClick() }
     }
 }
