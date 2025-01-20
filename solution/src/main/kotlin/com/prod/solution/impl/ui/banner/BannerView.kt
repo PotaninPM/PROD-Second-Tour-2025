@@ -28,9 +28,7 @@ class BannerView @JvmOverloads constructor(
      * Принимает состояние экрана и на основе него отрисовывает нужные данные
      * @param model - модель баннера
      */
-
     fun setupBanner(model: BannerUiModel) {
-
         model.smallBanner?.let { small ->
             binding.smallBannerContainer.visibility = View.VISIBLE
             binding.smallBannerRightLabel.text = small.rightLabel
@@ -38,7 +36,7 @@ class BannerView @JvmOverloads constructor(
             binding.smallBannerImage.setImageResource(small.imageResId)
 
             if (small.isFirstInPriority) {
-                binding.all.layoutDirection = LAYOUT_DIRECTION_RTL
+                reorder(binding.smallBannerContainer, binding.largeBannerContainer)
             }
         }
 
@@ -64,7 +62,38 @@ class BannerView @JvmOverloads constructor(
         }
     }
 
+    private fun reorder(first: View, second: View) {
+        val parent = first.parent as ViewGroup
+        val firstIndex = parent.indexOfChild(first)
+        val secondIndex = parent.indexOfChild(second)
+
+        if (firstIndex > secondIndex) {
+            parent.removeView(first)
+            parent.addView(first, secondIndex)
+        }
+
+        updateSpacer(parent, first, second)
+    }
+
+    private fun updateSpacer(parent: ViewGroup, first: View, second: View) {
+        val spacer = binding.spacer
+
+        val currentParent = spacer.parent as? ViewGroup
+        if (currentParent != null && currentParent != parent) {
+            currentParent.removeView(spacer)
+        }
+
+        val firstIndex = parent.indexOfChild(first)
+        val spacerIndex = parent.indexOfChild(spacer)
+
+        if (spacerIndex != firstIndex + 1) {
+            parent.removeView(spacer)
+            parent.addView(spacer, firstIndex + 1)
+        }
+    }
+
     override fun onGlobalLayout() {
-        TODO("Not yet implemented")
+
     }
 }
+

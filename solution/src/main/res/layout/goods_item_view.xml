@@ -43,7 +43,6 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="Кэшбэк 10%"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@id/iv_goods_image"
             app:layout_constraintTop_toTopOf="@id/iv_goods_image" />
@@ -59,7 +58,6 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="Новинка"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_goods_image"
             app:layout_constraintStart_toStartOf="@id/iv_goods_image" />
