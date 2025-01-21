@@ -8,12 +8,14 @@ import com.prod.core.api.domain.repositories.CartRepository
  */
 class CartRepositoryImpl : CartRepository {
 
+    private val cartMap = mutableMapOf<GoodInfo, Int>()
+
     /*
      * Метод для возврата всей корзины
      * Необходимо вернуть список пар, где первый элемент - информация о товаре, второй - количество
      */
     override fun getCart(): List<Pair<GoodInfo, Int>> {
-        TODO("Implementation here")
+        return cartMap.toList()
     }
 
     /*
@@ -22,7 +24,7 @@ class CartRepositoryImpl : CartRepository {
     * Необходимо увеличить количество товара в корзине на один
      */
     override fun increaseGoodQuantity(good: GoodInfo) {
-        TODO("Implementation here")
+        cartMap[good] = (cartMap[good] ?: 0) + 1
     }
 
     /*
@@ -30,7 +32,12 @@ class CartRepositoryImpl : CartRepository {
     * Необходимо уменьшить количество товара в корзине на один
      */
     override fun decreaseGoodQuantity(good: GoodInfo) {
-        TODO("Implementation here")
+        val new = (cartMap[good] ?: 0) - 1
+        if (new > 0) {
+            cartMap[good] = new
+        } else {
+            cartMap.remove(good)
+        }
     }
 
     /*
@@ -38,6 +45,6 @@ class CartRepositoryImpl : CartRepository {
     * Необходимо удалить все количества товара из корзины
      */
     override fun deleteAllQuantitiesFromCart(good: GoodInfo) {
-        TODO("Implementation here")
+        cartMap.clear()
     }
 }
