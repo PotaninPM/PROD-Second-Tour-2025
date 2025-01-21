@@ -19,6 +19,13 @@ class PayUseCaseImpl(
      * И передать их в payRepository
      */
     override fun pay(paymentState: PaymentState) {
-        TODO("Implementation here")
+        if (paymentState.isPaymentAvailable) {
+            payRepository.pay(
+                paymentState.cardNumber,
+                paymentState.cardDate,
+                paymentState.cardCvv,
+                cartRepository.getCart()
+            )
+        }
     }
 }

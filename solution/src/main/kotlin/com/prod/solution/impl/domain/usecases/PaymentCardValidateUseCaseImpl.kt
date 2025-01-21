@@ -17,7 +17,16 @@ class PaymentCardValidateUseCaseImpl : PaymentCardValidateUseCase {
         paymentState: PaymentState,
         cardNumber: String
     ): PaymentState {
-        TODO("Implementation here")
+        val valid1 = cardNumber.replace(" ", "").length == 16
+        val valid2 = cardNumber.matches(Regex("^\\d{4}( \\d{4}){3}\$"))
+
+        val valid = valid1 && valid2
+
+        return paymentState.copy(
+            cardNumber = cardNumber,
+            isCardNumberValid = valid,
+            isPaymentAvailable = valid && paymentState.isCardDateValid && paymentState.isCardCvvValid
+        )
     }
 
     /*
@@ -31,7 +40,16 @@ class PaymentCardValidateUseCaseImpl : PaymentCardValidateUseCase {
         currentYear: Int,
         currentMonth: Int
     ): PaymentState {
-        TODO("Implementation here")
+        val valid = cardDate.matches(Regex("^\\d{2}/\\d{2}\$")) && run {
+            val (month, year) = cardDate.split("/").map { it.toInt() }
+            month in 1..12 && (year > currentYear % 100 || (year == currentYear % 100 && month >= currentMonth))
+        }
+
+        return paymentState.copy(
+            cardDate = cardDate,
+            isCardDateValid = valid,
+            isPaymentAvailable = paymentState.isCardNumberValid && valid && paymentState.isCardCvvValid
+        )
     }
 
     /*
@@ -43,6 +61,15 @@ class PaymentCardValidateUseCaseImpl : PaymentCardValidateUseCase {
         paymentState: PaymentState,
         cardCvv: String
     ): PaymentState {
-        TODO("Implementation here")
+        val valid1 = cardCvv.matches(Regex("\\d{3}"))
+        val valid2 = cardCvv.length == 3
+
+        val valid = valid1 && valid2
+
+        return paymentState.copy(
+            cardCvv = cardCvv,
+            isCardCvvValid = valid,
+            isPaymentAvailable = paymentState.isCardNumberValid && paymentState.isCardDateValid && valid
+        )
     }
 }
