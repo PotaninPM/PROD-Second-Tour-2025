@@ -45,6 +45,6 @@ class CartRepositoryImpl : CartRepository {
     * Необходимо удалить все количества товара из корзины
      */
     override fun deleteAllQuantitiesFromCart(good: GoodInfo) {
-        cartMap.clear()
+        cartMap.remove(good)
     }
 }
