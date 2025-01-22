@@ -32,24 +32,28 @@ class CartManagerImpl(
     * Необходимо вернуть сумму всех бонусов от товаров
      */
     override fun calculateBonuses(): Int {
+        val fav = userRepository.getUserInfo().favorites
+        var totalBon = 0
+
         val cartItems = cartRepository.getCart()
-        val userInfo = userRepository.getUserInfo()
+        for ((good, quantity) in cartItems) {
+            val bonusInfo = getBonusInfoFromGoodInfoUseCase.getBonusInfo(good)
 
-        return cartItems.sumOf { (good, quantity) ->
-            val bonus = getBonusInfoFromGoodInfoUseCase.getBonusInfo(good)
+            if (bonusInfo == null || bonusInfo.type != Const.TYPE_POINTS) {
+                continue
+            }
 
-            if (bonus != null) {
-                val isFav = userInfo.favorites.contains(good.id)
-                val baseBonus = (bonus.value * quantity).toInt()
-
-                if (isFav) {
-                    (baseBonus * 1.2).toInt()
-                } else {
-                    baseBonus
-                }
-            } else 0
+            val baseBonus = bonusInfo.value * quantity
+            if (good.id in fav) {
+                totalBon += (baseBonus * 1.2).toInt()
+            } else {
+                totalBon += baseBonus.toInt()
+            }
         }
+
+        return totalBon
     }
+
 
     /*
     * Метод для вычисления всех кешбеков от товаров
@@ -58,23 +62,36 @@ class CartManagerImpl(
     override fun calculateCashback(): Int {
         val cartItems = cartRepository.getCart()
         val userInfo = userRepository.getUserInfo()
-        val activLevel = userInfo.activityLevel
+        val actLevel = userInfo.activityLevel
 
-        val extraCash = when (activLevel) {
-            in 0..25 -> 0
-            in 26..50 -> 2
-            in 51..75 -> 3
-            in 76..100 -> 5
-            else -> 0
+        val cash = when (actLevel) {
+            in 0..25 -> 0.0
+            in 26..50 -> 0.02
+            in 51..75 -> 0.03
+            in 76..100 -> 0.05
+            else -> 0.0
         }
 
-        return cartItems.sumOf { (good, quantity) ->
+        var totalCash = 0.0
+
+        for ((good, quantity) in cartItems) {
             val bonusInfo = getBonusInfoFromGoodInfoUseCase.getBonusInfo(good)
-            if (bonusInfo != null) {
-                val baseCash = (bonusInfo.value * quantity).toInt()
-                baseCash +  (baseCash * extraCash / 100)
-            } else 0
+
+            if (bonusInfo == null) {
+                totalCash += good.cost * quantity * cash
+            } else {
+                if (bonusInfo.type == Const.TYPE_CASHBACK) {
+                    val baseCashback = bonusInfo.value * good.cost * quantity
+                    if (bonusInfo.id in userInfo.favorites) {
+                        totalCash += baseCashback * 1.2
+                    } else {
+                        totalCash += baseCashback
+                    }
+                }
+            }
         }
+
+        return totalCash.toInt()
     }
 
     /*

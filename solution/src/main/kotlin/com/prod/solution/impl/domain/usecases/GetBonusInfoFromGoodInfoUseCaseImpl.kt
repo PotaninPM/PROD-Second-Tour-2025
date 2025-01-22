@@ -27,12 +27,14 @@ class GetBonusInfoFromGoodInfoUseCaseImpl(
             bonus.availableDueTo?.after(currentDateProvider.provideCurrentDate()) ?: true
         }
 
-        return goodInfo.bonusIds.firstOrNull { bonusId ->
+        val ans = goodInfo.bonusIds.firstOrNull { bonusId ->
             activeBon.any { bonus ->
                 bonus.id == bonusId && userBon.contains(bonusId)
             }
         }?.let { bonusId ->
             activeBon.find { it.id == bonusId }
         }
+
+        return ans
     }
 }

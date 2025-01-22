@@ -32,7 +32,7 @@ class GetGoodsUseCaseImpl(
 
         val cart = cartRepository.getCart()
 
-        return sortedGoods.map { good ->
+        val ans = sortedGoods.map { good ->
             val quantity = cart.find { it.first.id == good.id }?.second ?: 0
             val bonusInfo = getBonusInfoFromGoodInfoUseCase.getBonusInfo(good)
 
@@ -43,5 +43,7 @@ class GetGoodsUseCaseImpl(
                 bonusInfo = bonusInfo
             )
         }
+
+        return ans
     }
 }
