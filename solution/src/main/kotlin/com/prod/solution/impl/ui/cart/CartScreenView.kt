@@ -2,9 +2,19 @@ package com.prod.solution.impl.ui.cart
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.RelativeLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.prod.core.api.Const
+import com.prod.core.api.domain.models.GoodCartInfo
 import com.prod.core.api.domain.models.GoodInfo
 import com.prod.core.api.ui.cart.CartScreenState
+import com.prod.core.api.ui.extensions.imageIdToResId
+import com.prod.solution.databinding.CartViewBinding
+import com.prod.solution.databinding.ItemCartGoodBinding
 
 /**
  * Задача 8. Реализуйте CartScreenView для показа экрана корзины целиком.
@@ -15,6 +25,15 @@ class CartScreenView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : RelativeLayout(context, attrs, defStyleAttr) {
+
+    private val binding = CartViewBinding.inflate(LayoutInflater.from(context), this, true)
+
+    private val cartAdapter = CartAdapter()
+
+    init {
+        binding.rvCartItems.adapter = cartAdapter
+        binding.rvCartItems.layoutManager = LinearLayoutManager(context)
+    }
 
     /**
      * Метод для обновления состояния экрана корзины.
@@ -30,6 +49,80 @@ class CartScreenView @JvmOverloads constructor(
         onDeleteGood: (GoodInfo) -> Unit,
         onBuyButtonClicked: () -> Unit
     ) {
-        TODO("Implementation here")
+        Log.i("INFOG", "${state.totalBonuses}б ${state.totalCashback} р")
+
+        binding.tvTotalPrice.text = "${state.totalCosts} ₽"
+        binding.tvTotalWeight.text = "%.1f кг".format(state.totalWeight)
+
+        val cashForm = String.format("%,d", state.totalCashback).replace(",", " ")
+
+        if (state.totalCashback == 0) {
+            binding.cashback.visibility = GONE
+        } else {
+            binding.tvCashback.text = "${cashForm} ₽"
+            binding.cashback.visibility = VISIBLE
+        }
+
+        if (state.totalBonuses == 0) {
+            binding.bonuses.visibility = GONE
+        } else {
+            binding.tvBonuses.text = "${state.totalBonuses} баллов"
+            binding.bonuses.visibility = VISIBLE
+        }
+
+        cartAdapter.updateData(state.goodsData, onDeleteGood)
+
+        binding.btnBuy.setOnClickListener {
+            onBuyButtonClicked()
+        }
+    }
+
+    private class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
+
+        private val items = mutableListOf<GoodCartInfo>()
+        private var onDeleteGood: ((GoodInfo) -> Unit)? = null
+
+        fun updateData(newItems: List<GoodCartInfo>, onDeleteGood: (GoodInfo) -> Unit) {
+            this.items.clear()
+            this.items.addAll(newItems)
+            this.onDeleteGood = onDeleteGood
+            notifyDataSetChanged()
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = ItemCartGoodBinding.inflate(inflater, parent, false)
+            return CartViewHolder(binding)
+        }
+
+        override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+            holder.bind(items[position], onDeleteGood)
+        }
+
+        override fun getItemCount(): Int = items.size
+
+        class CartViewHolder(private val binding: ItemCartGoodBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(item: GoodCartInfo, onDeleteGood: ((GoodInfo) -> Unit)?) {
+                binding.tvGoodName.text = item.goodInfo.name
+                binding.tvGoodPrice.text = "${item.totalCost} ₽"
+
+                val type = when (item.goodInfo.goodItemQuantityInfo.type) {
+                    Const.TYPE_KILO -> "кг."
+                    Const.TYPE_GRAMM -> "г."
+                    else -> ""
+                }
+
+                binding.tvGoodDetails.text = "${item.countInCart} шт.(по ${item.goodInfo.goodItemQuantityInfo.value}$type)* ${item.goodInfo.cost} ₽"
+                val imageRes = imageIdToResId(item.goodInfo.imageId)
+
+                binding.ivGoodImage.setImageResource(imageRes)
+
+                binding.btnDelete.setOnClickListener {
+                    onDeleteGood?.invoke(item.goodInfo)
+                }
+            }
+        }
     }
 }
