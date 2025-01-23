@@ -2,8 +2,10 @@ package com.prod.solution.impl.ui.payment
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import com.prod.core.api.ui.payment.PaymentState
+import com.prod.solution.databinding.PaymentViewBinding
 
 /**
  * Задача 11. Реализуйте PaymentScreenView для показа экрана оплаты целиком.
@@ -14,6 +16,10 @@ class PaymentScreenView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
 ) : RelativeLayout(context, attrs, defStyleAttr) {
+
+    private val binding: PaymentViewBinding = PaymentViewBinding.inflate(
+        LayoutInflater.from(context), this, true
+    )
 
     /**
      * Метод для обновления состояния экрана оплаты.
@@ -31,6 +37,8 @@ class PaymentScreenView @JvmOverloads constructor(
         onCardCvvChanged: (String) -> Unit,
         onPayButtonClicked: (PaymentState) -> Unit
     ) {
-        TODO("Implementation here")
+        with(binding) {
+
+        }
     }
 }
