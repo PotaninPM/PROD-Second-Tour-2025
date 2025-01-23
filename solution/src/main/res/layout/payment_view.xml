@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/payment_box_bg"
         android:layout_marginHorizontal="20dp"
-        android:padding="10dp"
-        android:paddingHorizontal="10dp"
+        android:paddingVertical="10dp"
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,28 +34,28 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="10dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:textColor="#7A7A7A"
                 android:layout_marginStart="10dp"
-                android:text="Карта" />
+                android:text="Карта"
+                android:textColor="#7A7A7A"
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/cardError"
-                android:textColor="#FF0000"
-                android:textSize="16sp"
-                android:includeFontPadding="false"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="Неверно" />
+                android:includeFontPadding="false"
+                android:text="Неверно"
+                android:textColor="#FF0000"
+                android:textSize="16sp"
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/etCardNumber"
@@ -64,109 +63,105 @@
                 android:layout_height="40dp"
                 android:background="@drawable/edit_text_bg"
                 android:hint="•••• •••• •••• ••••"
-                android:textColorHint="#CBCACB"
                 android:inputType="number"
                 android:paddingStart="10dp"
                 android:textColor="#7A7A7A"
+                android:textColorHint="#CBCACB"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+            android:orientation="vertical"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintWidth_percent="0.57">
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.57">
+                android:layout_marginStart="10dp"
+                android:text="Дата"
+                android:textColor="#7A7A7A"
+                android:textSize="16dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:textColor="#7A7A7A"
-                    android:layout_marginStart="10dp"
-                    android:text="Дата" />
-
-                <TextView
-                    android:id="@+id/dateError"
-                    android:textColor="#FF0000"
-                    android:textSize="16sp"
-                    android:includeFontPadding="false"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="Неверно" />
-
-                <EditText
-                    android:id="@+id/etCardDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/edit_text_bg"
-                    android:hint="mm/YY"
-                    android:textColorHint="#CBCACB"
-                    android:inputType="text"
-                    android:paddingStart="10dp"
-                    android:textColor="#7A7A7A"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/dateError"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="Неверно"
+                android:textColor="#FF0000"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/etCardDate"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="mm/YY"
+                android:inputType="text"
+                android:paddingStart="10dp"
+                android:textColor="#7A7A7A"
+                android:textColorHint="#CBCACB"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintWidth_percent="0.35">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="CVV"
+                android:textColor="#7A7A7A"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/cvvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:includeFontPadding="false"
+                android:text="Неверно"
+                android:textColor="#FF0000"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/etCardCvv"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/edit_text_bg"
+                android:hint="•••"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:textColor="#7A7A7A"
+                android:textColorHint="#CBCACB"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.37">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:textSize="16dp"
-                    android:textColor="#7A7A7A"
-                    android:text="CVV" />
-
-                <TextView
-                    android:id="@+id/cvvError"
-                    android:textColor="#FF0000"
-                    android:textSize="16sp"
-                    android:includeFontPadding="false"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="Неверно" />
-
-                <EditText
-                    android:id="@+id/etCardCvv"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@drawable/edit_text_bg"
-                    android:hint="•••"
-                    android:textColorHint="#CBCACB"
-                    android:inputType="number"
-                    android:paddingStart="10dp"
-                    android:textColor="#7A7A7A"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
