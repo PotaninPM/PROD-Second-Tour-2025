@@ -52,7 +52,8 @@ class CartScreenView @JvmOverloads constructor(
     ) {
         val totalCost = NumberFormat.getNumberInstance(Locale("ru")).format(state.totalCosts)
         binding.tvTotalPrice.text = "$totalCost ₽"
-        binding.tvTotalWeight.text = "%.1f кг".format(state.totalWeight).replace(",", ".")
+
+        binding.tvTotalWeight.text = String.format(Locale("ru"), "%.1f кг", state.totalWeight)
 
         val cashbeck = NumberFormat.getNumberInstance(Locale("ru")).format(state.totalCashback)
 
