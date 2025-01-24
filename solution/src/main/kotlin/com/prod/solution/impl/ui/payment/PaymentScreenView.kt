@@ -2,6 +2,7 @@ package com.prod.solution.impl.ui.payment
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -40,52 +41,26 @@ class PaymentScreenView @JvmOverloads constructor(
         onPayButtonClicked: (PaymentState) -> Unit
     ) {
 
-        /*binding.tilCardNumber.editText?.apply {
-            setText(paymentState.cardNumber)
-            addTextChangedListener {
-                val text = it.toString()
-                onCardNumberChanged(text)
-            }
+        binding.etCardNumber.addTextChangedListener {
+            onCardNumberChanged(it.toString())
         }
 
-        binding.tvCardError.visibility = if (paymentState.isCardNumberValid) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+        binding.cardError.visibility = if (paymentState.isCardNumberValid) View.GONE else View.VISIBLE
 
-        binding.tilExpDate.editText?.apply {
-            setText(paymentState.cardDate)
-            addTextChangedListener {
-                val text = it.toString()
-                onCardDateChanged(text)
-            }
+        binding.etCardDate.addTextChangedListener {
+            onCardDateChanged(it.toString())
         }
+        binding.dateError.visibility = if (paymentState.isCardDateValid) View.GONE else View.VISIBLE
 
-        binding.tvExpDateError.visibility = if (paymentState.isCardDateValid) {
-            View.GONE
-        } else {
-            View.VISIBLE
+        binding.etCardCvv.addTextChangedListener {
+            onCardCvvChanged(it.toString())
         }
-
-        binding.tilCvv.editText?.apply {
-            setText(paymentState.cardCvv)
-            addTextChangedListener {
-                val text = it.toString()
-                onCardCvvChanged(text)
-            }
-        }
-
-        binding.tvCvvError.visibility = if (paymentState.isCardCvvValid) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+        binding.cvvError.visibility = if (paymentState.isCardCvvValid) View.GONE else View.VISIBLE
 
         binding.btnPay.isEnabled = paymentState.isPaymentAvailable
 
         binding.btnPay.setOnClickListener {
             onPayButtonClicked(paymentState)
-        }*/
+        }
     }
 }
