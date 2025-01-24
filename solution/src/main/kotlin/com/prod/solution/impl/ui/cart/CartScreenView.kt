@@ -2,7 +2,6 @@ package com.prod.solution.impl.ui.cart
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RelativeLayout
@@ -15,6 +14,8 @@ import com.prod.core.api.ui.cart.CartScreenState
 import com.prod.core.api.ui.extensions.imageIdToResId
 import com.prod.solution.databinding.CartViewBinding
 import com.prod.solution.databinding.ItemCartGoodBinding
+import java.text.NumberFormat
+import java.util.Locale
 
 /**
  * Задача 8. Реализуйте CartScreenView для показа экрана корзины целиком.
@@ -49,24 +50,24 @@ class CartScreenView @JvmOverloads constructor(
         onDeleteGood: (GoodInfo) -> Unit,
         onBuyButtonClicked: () -> Unit
     ) {
-        Log.i("INFOG", "${state.totalBonuses}б ${state.totalCashback} р")
+        val totalCost = NumberFormat.getNumberInstance(Locale("ru")).format(state.totalCosts)
+        binding.tvTotalPrice.text = "$totalCost ₽"
+        binding.tvTotalWeight.text = "%.1f кг".format(state.totalWeight).replace(",", ".")
 
-        binding.tvTotalPrice.text = "${state.totalCosts} ₽"
-        binding.tvTotalWeight.text = "%.1f кг".format(state.totalWeight)
-
-        val cashForm = String.format("%,d", state.totalCashback).replace(",", " ")
+        val cashbeck = NumberFormat.getNumberInstance(Locale("ru")).format(state.totalCashback)
 
         if (state.totalCashback == 0) {
             binding.cashback.visibility = GONE
         } else {
-            binding.tvCashback.text = "${cashForm} ₽"
+            binding.tvCashback.text = "$cashbeck ₽"
             binding.cashback.visibility = VISIBLE
         }
 
         if (state.totalBonuses == 0) {
             binding.bonuses.visibility = GONE
         } else {
-            binding.tvBonuses.text = "${state.totalBonuses} баллов"
+            val bonusesFormatted = NumberFormat.getNumberInstance(Locale("ru")).format(state.totalBonuses)
+            binding.tvBonuses.text = "$bonusesFormatted баллов"
             binding.bonuses.visibility = VISIBLE
         }
 
@@ -76,6 +77,7 @@ class CartScreenView @JvmOverloads constructor(
             onBuyButtonClicked()
         }
     }
+
 
     private class CartAdapter : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
@@ -106,11 +108,19 @@ class CartScreenView @JvmOverloads constructor(
 
             fun bind(item: GoodCartInfo, onDeleteGood: ((GoodInfo) -> Unit)?) {
                 binding.tvGoodName.text = item.goodInfo.name
-                binding.tvGoodPrice.text = "${item.totalCost} ₽"
+
+                val price = NumberFormat.getNumberInstance(Locale("ru")).format(item.totalCost)
+                binding.tvGoodPrice.text = "$price ₽"
 
                 val type = when (item.goodInfo.goodItemQuantityInfo.type) {
                     Const.TYPE_KILO -> "кг."
                     Const.TYPE_GRAMM -> "г."
+                    else -> ""
+                }
+
+                binding.tvGoodWeight.text = when (item.goodInfo.goodItemQuantityInfo.type) {
+                    Const.TYPE_KILO -> "${item.goodInfo.goodItemQuantityInfo.value * item.countInCart}кг"
+                    Const.TYPE_GRAMM -> "${item.goodInfo.goodItemQuantityInfo.value * item.countInCart}г"
                     else -> ""
                 }
 
