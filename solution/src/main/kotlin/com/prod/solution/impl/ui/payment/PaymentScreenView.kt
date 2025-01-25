@@ -40,22 +40,35 @@ class PaymentScreenView @JvmOverloads constructor(
         onCardCvvChanged: (String) -> Unit,
         onPayButtonClicked: (PaymentState) -> Unit
     ) {
-
         binding.etCardNumber.addTextChangedListener {
             onCardNumberChanged(it.toString())
         }
 
-        binding.cardError.visibility = if (paymentState.isCardNumberValid) View.GONE else View.VISIBLE
+        binding.cardError.visibility = if (paymentState.isCardNumberValid || paymentState.cardNumber.count() < 19) {
+            GONE
+        } else {
+            VISIBLE
+        }
 
         binding.etCardDate.addTextChangedListener {
             onCardDateChanged(it.toString())
         }
-        binding.dateError.visibility = if (paymentState.isCardDateValid) View.GONE else View.VISIBLE
+
+        binding.dateError.visibility = if (paymentState.cardDate.count() < 5 || paymentState.isCardDateValid) {
+            GONE
+        } else {
+            VISIBLE
+        }
 
         binding.etCardCvv.addTextChangedListener {
             onCardCvvChanged(it.toString())
         }
-        binding.cvvError.visibility = if (paymentState.isCardCvvValid) View.GONE else View.VISIBLE
+
+        binding.cvvError.visibility = if (paymentState.cardCvv.count() < 3 || paymentState.isCardCvvValid) {
+            GONE
+        } else {
+            VISIBLE
+        }
 
         binding.btnPay.isEnabled = paymentState.isPaymentAvailable
 
