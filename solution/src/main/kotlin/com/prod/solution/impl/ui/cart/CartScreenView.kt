@@ -1,8 +1,10 @@
 package com.prod.solution.impl.ui.cart
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +36,9 @@ class CartScreenView @JvmOverloads constructor(
     init {
         binding.rvCartItems.adapter = cartAdapter
         binding.rvCartItems.layoutManager = LinearLayoutManager(context)
+
+        val margin = (10 * resources.displayMetrics.density).toInt()
+        binding.rvCartItems.addItemDecoration(ItemDec(margin))
     }
 
     /**
@@ -136,4 +141,21 @@ class CartScreenView @JvmOverloads constructor(
             }
         }
     }
+
+    private class ItemDec(private val margin: Int) : RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val itemC = state.itemCount
+
+            if (position != itemC - 1) {
+                outRect.bottom = margin
+            }
+        }
+    }
 }
+
