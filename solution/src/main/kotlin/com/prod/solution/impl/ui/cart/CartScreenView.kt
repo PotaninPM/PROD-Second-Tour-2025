@@ -130,7 +130,7 @@ class CartScreenView @JvmOverloads constructor(
                     else -> ""
                 }
 
-                binding.tvGoodDetails.text = "${item.countInCart}шт. (по ${item.goodInfo.goodItemQuantityInfo.value}$type)* ${item.goodInfo.cost} ₽"
+                binding.tvGoodDetails.text = "${item.countInCart} шт. (по ${item.goodInfo.goodItemQuantityInfo.value}$type)* ${item.goodInfo.cost} ₽"
                 val imageRes = imageIdToResId(item.goodInfo.imageId)
 
                 binding.ivGoodImage.setImageResource(imageRes)
