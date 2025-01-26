@@ -72,9 +72,18 @@ class CartScreenView @JvmOverloads constructor(
         if (state.totalBonuses == 0) {
             binding.bonuses.visibility = GONE
         } else {
-            val bonusesFormatted = NumberFormat.getNumberInstance(Locale("ru")).format(state.totalBonuses)
-            binding.tvBonuses.text = "$bonusesFormatted баллов"
+            binding.tvBonuses.text = "${state.totalBonuses} баллов"
             binding.bonuses.visibility = VISIBLE
+        }
+
+        if (state.totalCashback != 0 && state.totalBonuses != 0) {
+            binding.spacer.visibility = VISIBLE
+        } else {
+            binding.spacer.visibility = GONE
+        }
+
+        if (state.totalCashback == 0 && state.totalBonuses == 0) {
+            binding.llBonuses.visibility = GONE
         }
 
         cartAdapter.updateData(state.goodsData, onDeleteGood)

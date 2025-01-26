@@ -101,11 +101,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="14.5dp"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bonuses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="14.5dp"
             android:orientation="horizontal">
 
             <TextView
