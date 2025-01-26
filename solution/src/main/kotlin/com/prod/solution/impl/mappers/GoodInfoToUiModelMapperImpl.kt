@@ -43,7 +43,7 @@ class GoodInfoToUiModelMapperImpl : GoodInfoToUiModelMapper {
             val totCost = goods.cost * quantity
             val formCost = NumberFormat.getNumberInstance(Locale("ru")).format(totCost)
 
-            "${quantity} шт. = $formCost ${Const.RUBBLE}"
+            "${quantity}шт. = $formCost ${Const.RUBBLE}"
 
         } else {
             null
