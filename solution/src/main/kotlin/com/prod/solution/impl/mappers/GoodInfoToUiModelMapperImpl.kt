@@ -10,6 +10,8 @@ import com.prod.core.api.ui.extensions.imageIdToResId
 import com.prod.core.api.ui.goods.GoodsBonusUi
 import com.prod.core.api.ui.goods.GoodsFavouriteUi
 import com.prod.core.api.ui.goods.GoodsItemUi
+import java.text.NumberFormat
+import java.util.Locale
 
 /**
  * Задача 5. Реализуйте маппер, который превращает сырые данные в данные, готовые для показа на экране
@@ -39,7 +41,10 @@ class GoodInfoToUiModelMapperImpl : GoodInfoToUiModelMapper {
 
         val btnText = if (quantity > 0) {
             val totCost = goods.cost * quantity
-            "${quantity}шт. = ${totCost} ${Const.RUBBLE}"
+            val formCost = NumberFormat.getNumberInstance(Locale("ru")).format(totCost)
+
+            "${quantity} шт. = $formCost ${Const.RUBBLE}"
+
         } else {
             null
         }
