@@ -64,6 +64,7 @@ class CartManagerImpl(
         val userInfo = userRepository.getUserInfo()
         val actLevel = userInfo.activityLevel
 
+
         val cash = when (actLevel) {
             in 0..25 -> 0.0
             in 26..50 -> 0.02
@@ -78,10 +79,13 @@ class CartManagerImpl(
             val bonusInfo = getBonusInfoFromGoodInfoUseCase.getBonusInfo(good)
 
             if (bonusInfo == null) {
-                totalCash += good.cost * quantity * cash
+                if (good.id in userInfo.favorites) {
+                    totalCash += good.cost * quantity * cash
+                }
             } else {
                 if (bonusInfo.type == Const.TYPE_CASHBACK) {
                     val baseCashback = bonusInfo.value * good.cost * quantity
+
                     if (bonusInfo.id in userInfo.favorites) {
                         totalCash += baseCashback * 1.2
                     } else {
